@@ -3,6 +3,8 @@ package com.web.sistemaweb.Controllers.api;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +43,9 @@ public class Info {
     public ResponseEntity<ListPratoRes> GetAllPratos(){
         List<PratoRes> pratos = new ArrayList<>();
         for (Prato prato : repositoryes.getPratoRepositories().findAll()) {
-            pratos.add(pratoService.createpratosRes(prato));
+            if(prato != null){
+                pratos.add(pratoService.createpratosRes(prato));
+            }
         }
 
         return ResponseEntity.ok().body(new ListPratoRes(pratos));
@@ -60,6 +64,15 @@ public class Info {
 
         return ResponseEntity.ok().body(new ListPratoRes(pratos));
     }
+
+    @GetMapping("get/comanda/byid/{id}")
+    public ResponseEntity<?> getComandaByid(@PathVariable String id){
+        Optional<Comanda> comanda = repositoryes.getComandaRepository().findById(Long.parseLong(id));
+        if(comanda.isPresent()){
+            
+        }
+        return ResponseEntity.ok().body(null);
+    } 
 
     @GetMapping("get/pedidos")
     public ResponseEntity<PedidosRes> getAllPedidos(){

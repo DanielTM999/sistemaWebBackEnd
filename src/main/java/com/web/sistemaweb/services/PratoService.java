@@ -15,6 +15,7 @@ import com.web.sistemaweb.models.Prato;
 public class PratoService {
 
     public Prato CreatePrato(PratoDto req){
+        System.out.println(req);
         List<Ingredientes> ingredientes = new ArrayList<>();
         Prato prato = new Prato();
         prato.setNome(req.getNomePrato());

@@ -9,7 +9,9 @@ public class TypeRes {
     private List<String> types;
 
     public TypeRes(List<String> lista){
-        types = lista;
+        if(!lista.isEmpty()){
+            types = lista;
+        }
     }
 
 }

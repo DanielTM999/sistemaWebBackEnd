@@ -30,10 +30,12 @@ public class PedidosRes {
             p.setId(pedidos.getId());
             for (Pedidos pd : pedidos.getPedidos()) {
                 Prato prato = pd.getPrato();
-                PratosListSub listSub = new PratosListSub();
-                listSub.setTipo(prato.getTypePrato().toString());
-                listSub.setDescricao(prato.getNome());
-                subList.add(listSub);
+                if(prato != null){
+                    PratosListSub listSub = new PratosListSub();
+                    listSub.setTipo(prato.getTypePrato().toString());
+                    listSub.setDescricao(prato.getNome());
+                    subList.add(listSub);
+                }
             }
             p.setItens(subList);
             lista.add(p);
