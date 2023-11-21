@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.web.sistemaweb.components.TypePrato;
+import com.web.sistemaweb.components.dto.res.ComandaByIdRes;
 import com.web.sistemaweb.components.dto.res.ListPratoRes;
 import com.web.sistemaweb.components.dto.res.PedidosRes;
 import com.web.sistemaweb.components.dto.res.PratoRes;
@@ -66,12 +67,12 @@ public class Info {
     }
 
     @GetMapping("get/comanda/byid/{id}")
-    public ResponseEntity<?> getComandaByid(@PathVariable String id){
+    public ResponseEntity<ComandaByIdRes> getComandaByid(@PathVariable String id){
         Optional<Comanda> comanda = repositoryes.getComandaRepository().findById(Long.parseLong(id));
         if(comanda.isPresent()){
-            
+            return ResponseEntity.ok().body(new ComandaByIdRes(comanda.get()));
         }
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.badRequest().build();
     } 
 
     @GetMapping("get/pedidos")
