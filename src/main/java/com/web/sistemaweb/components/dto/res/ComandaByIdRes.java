@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.web.sistemaweb.models.Comanda;
 import com.web.sistemaweb.models.Pedidos;
-import com.web.sistemaweb.models.Prato;
+
 
 import lombok.Data;
 
@@ -19,8 +19,8 @@ public class ComandaByIdRes {
     public ComandaByIdRes(Comanda comanda){
         pratoinfos = new ArrayList<>();
         this.id = comanda.getId();
-        for(Pedidos prato : comanda.getPedidos()){
-            Pratoinfo info = new Pratoinfo(prato.getPrato());
+        for(Pedidos pedido : comanda.getPedidos()){
+            Pratoinfo info = new Pratoinfo(pedido);
             pratoinfos.add(info);
         }
     }
@@ -30,9 +30,9 @@ public class ComandaByIdRes {
         private long id;
         private String nome;
         
-        public Pratoinfo(Prato prato){
-            this.id = prato.getId();
-            this.nome = prato.getNome();
+        public Pratoinfo(Pedidos pedido){
+            this.id = pedido.getId();
+            this.nome = pedido.getPrato().getNome();
         } 
     }
 }
