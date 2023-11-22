@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.web.sistemaweb.components.dto.req.AlterAddDto;
 import com.web.sistemaweb.components.dto.req.AlterComandaDto;
@@ -31,10 +33,8 @@ public class ComandaServices {
         for (SubPedidos element : req.getPedidos()) {
             Pedidos pedido = new Pedidos();
             pedido.setComanda(comanda);
-            Optional<Prato> pr = repositoryes.getPratoRepositories().findById(element.getId());
-            if(pr.isPresent()){
-                pedido.setPrato(pr.get());
-            }
+            Prato pr = repositoryes.getPratoRepositories().findById(element.getId()).orElseThrow(() ->  new ResponseStatusException(HttpStatus.BAD_REQUEST));
+            pedido.setPrato(pr);
             pedidos.add(pedido);
         }
         comanda.setPedidos(pedidos);
@@ -47,10 +47,8 @@ public class ComandaServices {
         List<Pedidos> pedidos = new ArrayList<>();
 
         for (Pratoinfos info : req.getPratoinfos()) {
-            Optional<Pedidos> pedido = repositoryes.getPedidosRepository().findById(info.getId());
-            if(pedido.isPresent()){
-                pedidos.add(pedido.get());
-            }
+            Pedidos pedido = repositoryes.getPedidosRepository().findById(info.getId()).orElseThrow(() ->  new ResponseStatusException(HttpStatus.BAD_REQUEST));
+            pedidos.add(pedido);
         }
 
         comanda.setPedidos(pedidos);
@@ -64,10 +62,8 @@ public class ComandaServices {
         for (AddListAlterIten element : req.getElementList()) {
             Pedidos pedido = new Pedidos();
             pedido.setComanda(comanda);
-            Optional<Prato> pr = repositoryes.getPratoRepositories().findById(element.getId());
-            if(pr.isPresent()){
-                pedido.setPrato(pr.get());
-            }
+            Prato pr = repositoryes.getPratoRepositories().findById(element.getId()).orElseThrow(() ->  new ResponseStatusException(HttpStatus.BAD_REQUEST));
+            pedido.setPrato(pr);
             pedidos.add(pedido);
         }
         comanda.setPedidos(pedidos);
@@ -77,10 +73,8 @@ public class ComandaServices {
 
     private void deleteIdRes(AlterComandaDto req) {
        for (Long id : req.getRemoves()) {
-            Optional<Pedidos> pedido = repositoryes.getPedidosRepository().findById(id);
-            if(pedido.isPresent()){
-                repositoryes.getPedidosRepository().delete(pedido.get());
-            }
+            Pedidos pedido = repositoryes.getPedidosRepository().findById(id).orElseThrow(() ->  new ResponseStatusException(HttpStatus.BAD_REQUEST));
+            repositoryes.getPedidosRepository().delete(pedido);
        }
     }
 
